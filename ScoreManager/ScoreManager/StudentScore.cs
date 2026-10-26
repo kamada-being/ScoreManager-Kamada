@@ -10,10 +10,10 @@
 
 
         //コンストラクタの作成
-        public StudentScore(string vName, string vSubject, int score) {
+        public StudentScore(string vName, string vSubject, int vScore) {
             Name = vName;
             Subject = vSubject;
-            Score = score;
+            Score = vScore;
         }
     }
 }
