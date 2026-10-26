@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-///<summary>
-///ScoreManagerクラス:「データを保持するだけ」のクラス。名前、科目、点数のデータを保持する。コンストラクタを作成し、各データを引数で受け取れるようにする。
-/// </summary>
-namespace ScoreManager {
+﻿namespace ScoreManager {
+    ///<summary>
+    ///名前、科目、点数のデータの保持だけを行う。業務ロジックは持たない。
+    /// </summary>
     internal class StudentScore {
         //各値のプロパティの作成　→今回は、値の読み込みのみを行いたいので、set;は不要。
         public string Name { get; }
@@ -16,9 +10,9 @@ namespace ScoreManager {
 
 
         //コンストラクタの作成
-        public StudentScore(string name, string subject, int score) {
-            Name = name;
-            Subject = subject;
+        public StudentScore(string vName, string vSubject, int score) {
+            Name = vName;
+            Subject = vSubject;
             Score = score;
         }
     }
