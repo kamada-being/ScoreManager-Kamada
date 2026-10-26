@@ -1,12 +1,11 @@
 ﻿namespace ScoreManager {
-    ///<summary>
-    ///名前、科目、点数のデータの保持だけを行う。業務ロジックは持たない。
+    /// <summary>
+    /// 名前、科目、点数のデータの保持だけを行う。業務ロジックは持たない。
     /// </summary>
     internal class StudentScore {
-        //各値のプロパティの作成　→今回は、値の読み込みのみを行いたいので、set;は不要。
-
+        // 各値プロパティを作成する。今回は、値の読み込みのみを行いたいので、set;は不要。
         /// <summary>
-        /// 生徒の名前を取得する。
+        /// 生徒の氏名を取得する。
         /// </summary>
         public string Name { get; }
         /// <summary>
@@ -17,10 +16,8 @@
         /// 点数を取得する。
         /// </summary>
         public int Score { get; }
-
-
         /// <summary>
-        /// コンストラクタを生成する。
+        /// コンストラクタ
         /// </summary>
         /// <param name="vName">生徒の氏名</param>
         /// <param name="vSubject">科目名</param>
