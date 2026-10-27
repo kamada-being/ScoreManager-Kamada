@@ -22,8 +22,8 @@ namespace ScoreManager {
             // [\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}a-zA-Z]+  → 氏名(ひらがな/カタカナ/漢字/英字のうち、いずれか1文字以上)
             // [\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+        → 科目名(ひらがな/カタカナ/漢字のうち、いずれか1文字以上)
             // (100|[1-9][0-9]|[0-9])   → 点数(0-100までの値のうち、いずれかの値)
-            @"^[ \t\u3000]*[(?<name>\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}a-zA-Z)]+[ \t\u3000]*," +
-            @"[ \t\u3000]*[?<subject>(\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs})]+[ \t\u3000]*," +
+            @"^[ \t\u3000]*(?<name>[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}a-zA-Z]+)[ \t\u3000]*," +
+            @"[ \t\u3000]*(?<subject>[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+)[ \t\u3000]*," +
             @"[ \t\u3000]*(?<score>100|[1-9][0-9]|[0-9])[ \t\u3000]*$"
         );
 
@@ -53,7 +53,6 @@ namespace ScoreManager {
                     }
 
                     var wMatch = C_CsvLineRegex.Match(wTrimLine);
-                    
                     if (!wMatch.Success) {
                         Console.WriteLine("不正な行: " + wTrimLine);
                         continue;
