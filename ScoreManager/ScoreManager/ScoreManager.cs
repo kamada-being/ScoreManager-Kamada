@@ -60,10 +60,17 @@ namespace ScoreManager {
                     var wName = wMatch.Groups["name"].Value;
                     var wSubject = wMatch.Groups["subject"].Value;
                     var wScore = int.Parse(wMatch.Groups["score"].Value);
-
                     FScores.Add(new StudentScore(wName, wSubject, wScore));
                 }
                 Console.WriteLine($"{FScores.Count} 件のデータを読み込みました。");
+            }
+        }
+        /// <summary>
+        /// 成績データの一覧表示を行う。
+        /// </summary>
+        public void wDisplayScores() {
+            foreach (var wScores in FScores) {
+                Console.WriteLine($"{wScores.Name}　| { wScores.Subject} | {wScores.Score}");
             }
         }
     }
