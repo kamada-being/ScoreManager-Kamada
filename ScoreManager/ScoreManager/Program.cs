@@ -11,7 +11,7 @@ namespace ScoreManager {
             string wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
             wManager.ReadData(wFilePath);
 
-            wManager.wDisplayScores();
+            wManager.DisplayScores();
         }
     }
 }
