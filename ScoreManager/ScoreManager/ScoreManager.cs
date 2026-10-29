@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ScoreManager {
     /// <summary>
@@ -64,6 +66,17 @@ namespace ScoreManager {
                     FScores.Add(new StudentScore(wName, wSubject, wScore));
                 }
                 Console.WriteLine($"{FScores.Count} 件のデータを読み込みました。");
+            }
+        }
+        /// <summary>
+        /// 全教科の平均点を計算する。
+        /// </summary>
+        public void CalcAverageScore() {
+            if (FScores.Any()){
+                double wAverage = FScores.Select(x => x.Score).Average();
+                Console.WriteLine($"平均点: {wAverage.ToString("F2")}");
+            } else {
+                Console.WriteLine("0");
             }
         }
     }
