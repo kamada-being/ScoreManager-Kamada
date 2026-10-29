@@ -17,7 +17,7 @@ namespace ScoreManager {
         /// <summary>
         /// 「氏名, 科目名, 点数」の3列形式であることを検証する正規表現。
         /// </summary>
-        static readonly Regex C_CsvLineRegex = new Regex(
+        private static readonly Regex C_CsvLineRegex = new Regex(
             // [ \t\u3000]*  → 空白(半角スペース・タブ・全角スペース)を許容する
             // [\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}a-zA-Z]+  → 氏名(ひらがな/カタカナ/漢字/英字のうち、いずれか1文字以上)
             // [\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+        → 科目名(ひらがな/カタカナ/漢字のうち、いずれか1文字以上)
@@ -67,16 +67,16 @@ namespace ScoreManager {
                 Console.WriteLine($"{FScores.Count} 件のデータを読み込みました。");
             }
         }
+
         /// <summary>
         /// 全教科の平均点を計算する。
         /// </summary>
-        public void CalcAverageScore() {
-            if (FScores.Any()){
-                double wAverage = FScores.Select(x => x.Score).Average();
-                Console.WriteLine($"平均点: {wAverage.ToString("F2")}");
-            } else {
-                Console.WriteLine("0");
+        public double CalcAverageScore() {
+            if (FScores.Count == 0) {
+                return 0;
             }
+                double wAverage = FScores.Average(x => x.Score);
+                return wAverage;
         }
     }
 }
