@@ -11,7 +11,7 @@ namespace ScoreManager {
             string wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
             wManager.ReadData(wFilePath);
 
-            Console.WriteLine($"平均点: {wManager.CalcAverageScore().ToString("F2")}");
+            Console.WriteLine($"平均点: {wManager.CalcAverageScore():F2}");
         }
     }
 }

@@ -72,11 +72,9 @@ namespace ScoreManager {
         /// 全教科の平均点を計算する。
         /// </summary>
         public double CalcAverageScore() {
-            if (FScores.Count == 0) {
-                return 0;
-            }
-                double wAverage = FScores.Average(x => x.Score);
-                return wAverage;
+            if (FScores.Count == 0) return 0;
+
+            return FScores.Average(x => x.Score);
         }
     }
 }
