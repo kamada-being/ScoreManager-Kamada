@@ -12,6 +12,8 @@ namespace ScoreManager {
             wManager.ReadData(wFilePath);
 
             wManager.DisplayScores();
+
+            Console.WriteLine($"平均点: {wManager.CalcAverageScore():F2}");
         }
     }
 }

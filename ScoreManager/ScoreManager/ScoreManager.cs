@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace ScoreManager {
@@ -73,6 +74,15 @@ namespace ScoreManager {
             foreach (var wScore in FScores) {
                 Console.WriteLine($"{wScore.Name,-10} | {wScore.Subject,-4} | {wScore.Score,3}");
             }
+        }
+
+        /// <summary>
+        /// 全教科の平均点を計算する。
+        /// </summary>
+        public double CalcAverageScore() {
+            if (FScores.Count == 0) return 0;
+
+            return FScores.Average(x => x.Score);
         }
     }
 }
