@@ -23,7 +23,7 @@ namespace ScoreManager {
             var wSubjectAverages = wManager.CalcSubjectAverages(wManager.Scores);
 
             if (wSubjectAverages.Count == 0) {
-                Console.WriteLine("0.00");
+                Console.WriteLine("データがありません。");
             } else {
                 foreach (var wPair in wSubjectAverages) {
                     Console.WriteLine($"{wPair.Key}: {wPair.Value:F2}");

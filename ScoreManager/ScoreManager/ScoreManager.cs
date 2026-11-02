@@ -70,8 +70,6 @@ namespace ScoreManager {
                 Console.WriteLine($"ファイルの読み込み中にエラーが発生しました: {ex.Message}");
             } catch (UnauthorizedAccessException ex) {
                 Console.WriteLine($"ファイルへのアクセス権限がありません: {ex.Message}");
-            } catch (Exception ex) {
-                Console.WriteLine($"予期せぬエラーが発生しました: {ex.Message}");
             }
         }
 
