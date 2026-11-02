@@ -8,7 +8,7 @@ namespace ScoreManager {
             Console.WriteLine(".exeと同階層にあるCSVファイルから成績データを読み込みます。");
 
             var wManager = new ScoreManager();
-            string wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
+            var wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
             wManager.ReadData(wFilePath);
 
             // 1.一覧表示
@@ -21,10 +21,11 @@ namespace ScoreManager {
             // 3.科目別平均点表示
             Console.WriteLine("科目別平均点:");
             var wSubjectAverages = wManager.CalcSubjectAverages(wManager.Scores);
-            foreach (var wPair in wSubjectAverages) {
-                if (wSubjectAverages.Count == 0) {
-                    Console.WriteLine("0");
-                } else {
+
+            if (wSubjectAverages.Count == 0) {
+                Console.WriteLine("0.00");
+            } else {
+                foreach (var wPair in wSubjectAverages) {
                     Console.WriteLine($"{wPair.Key}: {wPair.Value:F2}");
                 }
             }

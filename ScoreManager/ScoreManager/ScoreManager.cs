@@ -15,9 +15,9 @@ namespace ScoreManager {
         private List<StudentScore> FScores = new List<StudentScore>();
 
         /// <summary>
-        /// FScoresのプロパティ。
+        /// 読み込んだ成績データを取得するリスト。
         /// </summary>
-        public List<StudentScore> Scores => FScores;
+        public IReadOnlyList<StudentScore> Scores => FScores.AsReadOnly();
 
         /// <summary>
         /// 「氏名, 科目名, 点数」の3列形式であることを検証する正規表現。
@@ -42,33 +42,36 @@ namespace ScoreManager {
             }
 
             FScores.Clear();
+            try {
+                using (var wReader = new StreamReader(vFilePath)) {
+                    while (!wReader.EndOfStream) {
+                        var wRawLine = wReader.ReadLine();
 
-            using (var wReader = new StreamReader(vFilePath)) {
-                while (!wReader.EndOfStream) {
-                    var wRawLine = wReader.ReadLine();
+                        if (string.IsNullOrWhiteSpace(wRawLine)) continue;
 
-                    if (string.IsNullOrWhiteSpace(wRawLine)) {
-                        continue;
+                        var wTrimLine = wRawLine.Trim();
+
+                        if (wTrimLine.StartsWith("#")) continue;
+
+                        var wMatch = C_CsvLineRegex.Match(wTrimLine);
+                        if (!wMatch.Success) {
+                            Console.WriteLine("不正な行: " + wTrimLine);
+                            continue;
+                        }
+
+                        var wName = wMatch.Groups["name"].Value;
+                        var wSubject = wMatch.Groups["subject"].Value;
+                        var wScore = int.Parse(wMatch.Groups["score"].Value);
+                        FScores.Add(new StudentScore(wName, wSubject, wScore));
                     }
-
-                    var wTrimLine = wRawLine.Trim();
-
-                    if (wTrimLine.StartsWith("#")) {
-                        continue;
-                    }
-
-                    var wMatch = C_CsvLineRegex.Match(wTrimLine);
-                    if (!wMatch.Success) {
-                        Console.WriteLine("不正な行: " + wTrimLine);
-                        continue;
-                    }
-
-                    var wName = wMatch.Groups["name"].Value;
-                    var wSubject = wMatch.Groups["subject"].Value;
-                    var wScore = int.Parse(wMatch.Groups["score"].Value);
-                    FScores.Add(new StudentScore(wName, wSubject, wScore));
+                    Console.WriteLine($"{FScores.Count} 件のデータを読み込みました。");
                 }
-                Console.WriteLine($"{FScores.Count} 件のデータを読み込みました。");
+            } catch (IOException ex) {
+                Console.WriteLine($"ファイルの読み込み中にエラーが発生しました: {ex.Message}");
+            } catch (UnauthorizedAccessException ex) {
+                Console.WriteLine($"ファイルへのアクセス権限がありません: {ex.Message}");
+            } catch (Exception ex) {
+                Console.WriteLine($"予期せぬエラーが発生しました: {ex.Message}");
             }
         }
 
@@ -93,14 +96,14 @@ namespace ScoreManager {
         /// <summary>
         /// 科目別の平均点を計算する。
         /// </summary>
-        public Dictionary<string, double> CalcSubjectAverages(List<StudentScore> vScores) {
+        public Dictionary<string, double> CalcSubjectAverages(IReadOnlyList<StudentScore> vScores) {
             if (vScores == null || vScores.Count == 0) return new Dictionary<string, double>();
 
             return vScores
                 .GroupBy(x => x.Subject)
                 .ToDictionary(
-                    g => g.Key,
-                    g => g.Average(x => x.Score)
+                    x => x.Key,
+                    x => x.Average(y => y.Score)
                 );
         }
     }
