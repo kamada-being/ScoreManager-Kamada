@@ -11,9 +11,23 @@ namespace ScoreManager {
             string wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
             wManager.ReadData(wFilePath);
 
+            // 1.一覧表示
+            Console.WriteLine("=== 成績一覧 ===");
             wManager.DisplayScores();
 
+            // 2.平均点表示
             Console.WriteLine($"平均点: {wManager.CalcAverageScore():F2}");
+
+            // 3.科目別平均点表示
+            Console.WriteLine("科目別平均点:");
+            var wSubjectAverages = wManager.CalcSubjectAverages(wManager.Scores);
+            foreach (var wPair in wSubjectAverages) {
+                if (wSubjectAverages.Count == 0) {
+                    Console.WriteLine("0");
+                } else {
+                    Console.WriteLine($"{wPair.Key}: {wPair.Value:F2}");
+                }
+            }
         }
     }
 }

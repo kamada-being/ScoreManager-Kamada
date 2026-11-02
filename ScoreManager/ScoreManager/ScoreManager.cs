@@ -15,6 +15,11 @@ namespace ScoreManager {
         private List<StudentScore> FScores = new List<StudentScore>();
 
         /// <summary>
+        /// FScoresのプロパティ。
+        /// </summary>
+        public List<StudentScore> Scores => FScores;
+
+        /// <summary>
         /// 「氏名, 科目名, 点数」の3列形式であることを検証する正規表現。
         /// </summary>
         private static readonly Regex C_CsvLineRegex = new Regex(
@@ -22,9 +27,9 @@ namespace ScoreManager {
             // [\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}a-zA-Z]+  → 氏名(ひらがな/カタカナ/漢字/英字のうち、いずれか1文字以上)
             // [\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+        → 科目名(ひらがな/カタカナ/漢字のうち、いずれか1文字以上)
             // (100|[1-9][0-9]|[0-9])   → 点数(0-100までの値のうち、いずれかの値)
-            @"^[ \t\u3000]*(?<name>[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}a-zA-Z]+)[ \t\u3000]*," +
+            @"^(?<name>[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}a-zA-Z]+)[ \t\u3000]*," +
             @"[ \t\u3000]*(?<subject>[\p{IsHiragana}\p{IsKatakana}\p{IsCJKUnifiedIdeographs}]+)[ \t\u3000]*," +
-            @"[ \t\u3000]*(?<score>100|[1-9][0-9]|[0-9])[ \t\u3000]*$"
+            @"[ \t\u3000]*(?<score>100|[1-9][0-9]|[0-9])$"
         );
 
         /// <summary>
@@ -83,6 +88,20 @@ namespace ScoreManager {
             if (FScores.Count == 0) return 0;
 
             return FScores.Average(x => x.Score);
+        }
+
+        /// <summary>
+        /// 科目別の平均点を計算する。
+        /// </summary>
+        public Dictionary<string, double> CalcSubjectAverages(List<StudentScore> vScores) {
+            if (vScores == null || vScores.Count == 0) return new Dictionary<string, double>();
+
+            return vScores
+                .GroupBy(x => x.Subject)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Average(x => x.Score)
+                );
         }
     }
 }
