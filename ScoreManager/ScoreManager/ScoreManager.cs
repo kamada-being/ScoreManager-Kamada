@@ -19,6 +19,9 @@ namespace ScoreManager {
         /// </summary>
         public IReadOnlyList<StudentScore> Scores => FScores.AsReadOnly();
 
+        /// <summary>
+        /// 合格者の判定に使用する点数。
+        /// </summary>
         private const int C_PassingScore = 60;
 
         /// <summary>
@@ -113,7 +116,7 @@ namespace ScoreManager {
         }
 
         /// <summary>
-        /// 合格者の成績データを抽出する。合格点は60点以上とする。
+        /// 合格者の成績データを抽出する。
         /// </summary>
         /// <param name="vScores">成績データの一覧</param>
         /// <returns>合格者の成績データの一覧</returns>
