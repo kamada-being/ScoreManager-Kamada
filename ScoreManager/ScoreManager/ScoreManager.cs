@@ -92,7 +92,7 @@ namespace ScoreManager {
         /// <summary>
         /// 全教科の平均点を計算する。
         /// </summary>
-        /// <returns>全教科の平均点</returns>  
+        /// <returns>全教科の平均点</returns>
         public double CalcAverageScore() {
             if (FScores.Count == 0) return 0;
 
