@@ -32,8 +32,12 @@ namespace ScoreManager {
 
             // 4.合格者一覧表示
             var wPassers = wManager.FilterPassers(wManager.Scores);
-            Console.WriteLine($"合格者 {wPassers.Count} 名");
-            wManager.DisplayScores(wPassers);
+            if (wPassers.Count == 0) {
+                Console.WriteLine("合格者はいません。");
+            } else {
+                Console.WriteLine($"合格者 {wPassers.Count} 名");
+                wManager.DisplayScores(wPassers);
+            }
         }
     }
 }
