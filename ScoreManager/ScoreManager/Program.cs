@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace ScoreManager {
     internal class Program {
@@ -15,10 +16,12 @@ namespace ScoreManager {
             Console.WriteLine("=== 成績一覧 ===");
             wManager.DisplayScores(wManager.Scores);
 
-            // 2.平均点表示
+            // 2.全教科の平均点表示
+            Console.WriteLine("=== 全教科の平均点 ===");
             Console.WriteLine($"平均点: {wManager.CalcAverageScore():F2}");
 
             // 3.科目別平均点表示
+            Console.WriteLine("=== 科目別平均点 ===");
             Console.WriteLine("科目別平均点:");
             var wSubjectAverages = wManager.CalcSubjectAverages(wManager.Scores);
 
@@ -31,12 +34,13 @@ namespace ScoreManager {
             }
 
             // 4.合格者一覧表示
-            var wPassers = wManager.FilterPassers(wManager.Scores);
-            if (wPassers.Count == 0) {
+            Console.WriteLine("=== 合格者一覧 ===");
+            var wPassingScores = wManager.GetPassingScores(wManager.Scores);
+            if (wPassingScores.Count == 0) {
                 Console.WriteLine("合格者はいません。");
             } else {
-                Console.WriteLine($"合格者 {wPassers.Count} 名");
-                wManager.DisplayScores(wPassers);
+                Console.WriteLine($"合格者 {wPassingScores.GroupBy(x => x.Name).Count()} 名");
+                wManager.DisplayScores(wPassingScores);
             }
         }
     }
