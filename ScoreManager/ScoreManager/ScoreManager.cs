@@ -20,6 +20,11 @@ namespace ScoreManager {
         public IReadOnlyList<StudentScore> Scores => FScores.AsReadOnly();
 
         /// <summary>
+        /// 合格者の判定に使用する点数。
+        /// </summary>
+        private const int C_PassingScore = 60;
+
+        /// <summary>
         /// 「氏名, 科目名, 点数」の3列形式であることを検証する正規表現。
         /// </summary>
         private static readonly Regex C_CsvLineRegex = new Regex(
@@ -35,6 +40,7 @@ namespace ScoreManager {
         /// <summary>
         /// CSVファイルの読み込みを行う。
         /// </summary>
+        /// <param name="vFilePath">CSVファイルのパス</param>
         public void ReadData(string vFilePath) {
             if (!File.Exists(vFilePath)) {
                 Console.WriteLine($"ファイルが見つかりませんでした: {vFilePath}");
@@ -76,8 +82,9 @@ namespace ScoreManager {
         /// <summary>
         /// 成績データの一覧表示を行う。
         /// </summary>
-        public void DisplayScores() {
-            foreach (var wScore in FScores) {
+        /// <param name="vScores">成績データの一覧</param>
+        public void DisplayScores(IReadOnlyList<StudentScore> vScores) {
+            foreach (var wScore in vScores) {
                 Console.WriteLine($"{wScore.Name,-10} | {wScore.Subject,-4} | {wScore.Score,3}");
             }
         }
@@ -85,6 +92,7 @@ namespace ScoreManager {
         /// <summary>
         /// 全教科の平均点を計算する。
         /// </summary>
+        /// <returns>全教科の平均点</returns>
         public double CalcAverageScore() {
             if (FScores.Count == 0) return 0;
 
@@ -94,8 +102,10 @@ namespace ScoreManager {
         /// <summary>
         /// 科目別の平均点を計算する。
         /// </summary>
+        /// <param name="vScores">成績データの一覧</param>
+        /// <returns>各科目別の平均点</returns>
         public Dictionary<string, double> CalcSubjectAverages(IReadOnlyList<StudentScore> vScores) {
-            if (vScores == null || vScores.Count == 0) return new Dictionary<string, double>();
+            if (vScores == null) return new Dictionary<string, double>();
 
             return vScores
                 .GroupBy(x => x.Subject)
@@ -103,6 +113,17 @@ namespace ScoreManager {
                     x => x.Key,
                     x => x.Average(y => y.Score)
                 );
+        }
+
+        /// <summary>
+        /// 合格者の成績データを抽出する。
+        /// </summary>
+        /// <param name="vScores">成績データの一覧</param>
+        /// <returns>合格者の成績データの一覧</returns>
+        public List<StudentScore> GetPassingScores(IReadOnlyList<StudentScore> vScores) {
+            if (vScores == null) return new List<StudentScore>();
+
+            return vScores.Where(x => x.Score >= C_PassingScore).ToList();
         }
     }
 }
