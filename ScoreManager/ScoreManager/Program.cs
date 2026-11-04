@@ -13,7 +13,7 @@ namespace ScoreManager {
 
             // 1.一覧表示
             Console.WriteLine("=== 成績一覧 ===");
-            wManager.DisplayScores();
+            wManager.DisplayScores(wManager.Scores);
 
             // 2.平均点表示
             Console.WriteLine($"平均点: {wManager.CalcAverageScore():F2}");
@@ -29,6 +29,11 @@ namespace ScoreManager {
                     Console.WriteLine($"{wPair.Key}: {wPair.Value:F2}");
                 }
             }
+
+            // 4.合格者一覧表示
+            var wPassers = wManager.FilterPassers(wManager.Scores);
+            Console.WriteLine($"合格者 {wPassers.Count} 名");
+            wManager.DisplayScores(wPassers);
         }
     }
 }

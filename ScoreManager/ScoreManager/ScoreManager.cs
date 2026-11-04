@@ -76,8 +76,8 @@ namespace ScoreManager {
         /// <summary>
         /// 成績データの一覧表示を行う。
         /// </summary>
-        public void DisplayScores() {
-            foreach (var wScore in FScores) {
+        public void DisplayScores(IReadOnlyList<StudentScore> vScores) {
+            foreach (var wScore in vScores) {
                 Console.WriteLine($"{wScore.Name,-10} | {wScore.Subject,-4} | {wScore.Score,3}");
             }
         }
@@ -103,6 +103,12 @@ namespace ScoreManager {
                     x => x.Key,
                     x => x.Average(y => y.Score)
                 );
+        }
+
+        public List<StudentScore> FilterPassers(IReadOnlyList<StudentScore> vScores) {
+            if (vScores == null || vScores.Count == 0) return new List<StudentScore>();
+
+            return vScores.Where(x => x.Score >= 60).ToList();
         }
     }
 }
