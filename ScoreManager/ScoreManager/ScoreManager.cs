@@ -125,5 +125,16 @@ namespace ScoreManager {
 
             return vScores.Where(x => x.Score >= C_PassingScore).ToList();
         }
+
+        /// <summary>
+        /// 指定された科目名に一致する成績データを取得する。
+        /// </summary>
+        /// <param name="vSubject">ユーザーが指定する科目名</param>
+        /// <returns>指定科目の成績一覧</returns>
+        public List<StudentScore> FilterScoresBySubject(string vSubject) {
+            if (string.IsNullOrWhiteSpace(vSubject)) return new List<StudentScore>();
+
+            return FScores.Where(x => string.Equals(x.Subject, vSubject, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
     }
 }
