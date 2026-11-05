@@ -142,6 +142,7 @@ namespace ScoreManager {
         /// 保持する全ての成績データをCSV形式で出力する。
         /// </summary>
         /// <param name="vFilePath">出力先のファイルパス</param>
+        /// <returns>出力が成功したかどうかを判定する値</returns>
         public bool OutputCSV(string vFilePath) {
             if (FScores.Count == 0) {
                 Console.WriteLine("出力するデータがありません。");
