@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace ScoreManager {
@@ -135,6 +136,33 @@ namespace ScoreManager {
             if (string.IsNullOrWhiteSpace(vSubject)) return new List<StudentScore>();
 
             return FScores.Where(x => string.Equals(x.Subject, vSubject, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+
+        /// <summary>
+        /// 保持する全ての成績データをCSV形式で出力する。
+        /// </summary>
+        /// <param name="vFilePath">出力先のファイルパス</param>
+        public bool OutputCSV(string vFilePath) {
+            if (FScores.Count == 0) {
+                Console.WriteLine("出力するデータがありません。");
+                return false;
+            }
+
+            try {
+                using (var wWriter = new StreamWriter(vFilePath, false, Encoding.UTF8)) {
+                    wWriter.WriteLine("Name,Subject,Score");
+                    foreach (var wScore in FScores) {
+                        wWriter.WriteLine($"{wScore.Name},{wScore.Subject},{wScore.Score}");
+                    }
+                }
+            } catch (IOException ex) {
+                Console.WriteLine($"ファイルの書き込み中にエラーが発生しました: {ex.Message}");
+                return false;
+            } catch (UnauthorizedAccessException ex) {
+                Console.WriteLine($"ファイルへのアクセス権限がありません: {ex.Message}");
+                return false;
+            }
+            return true;
         }
     }
 }
