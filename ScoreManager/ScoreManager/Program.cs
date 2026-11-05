@@ -42,6 +42,19 @@ namespace ScoreManager {
                 Console.WriteLine($"合格者 {wPassingScores.GroupBy(x => x.Name).Count()} 名");
                 wManager.DisplayScores(wPassingScores);
             }
+
+            // 5.科目でフィルタして表示
+            Console.WriteLine("=== 科目でフィルタ ===");
+            Console.WriteLine("科目名を入力：");
+            var wSubject = Console.ReadLine()?.Trim();
+
+            var wFilteredScores = wManager.FilterScoresBySubject(wSubject);
+            if (wFilteredScores.Count == 0) {
+                Console.WriteLine("正しい科目が指定されていないか、データがありません。");
+            } else {
+                Console.WriteLine($"{wSubject} の成績一覧");
+                wManager.DisplayScores(wFilteredScores);
+            }
         }
     }
 }
