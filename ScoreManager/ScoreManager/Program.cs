@@ -48,7 +48,13 @@ namespace ScoreManager {
             Console.Write("科目名を入力：");
             var wSubject = Console.ReadLine()?.Trim();
 
+            if (string.IsNullOrEmpty(wSubject)) {
+                Console.WriteLine($"科目名が入力されていません。");
+                return;
+            }
+
             var wFilteredScores = wManager.FilterScoresBySubject(wSubject);
+            
             if (wFilteredScores.Count == 0) {
                 Console.WriteLine($"「{wSubject}」の成績はありません。");
             } else {
