@@ -134,7 +134,7 @@ namespace ScoreManager {
         public List<StudentScore> FilterScoresBySubject(string vSubject) {
             if (string.IsNullOrWhiteSpace(vSubject)) return new List<StudentScore>();
 
-            return Scores.Where(x => string.Equals(x.Subject, vSubject, StringComparison.OrdinalIgnoreCase)).ToList();
+            return FScores.Where(x => string.Equals(x.Subject, vSubject, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
 }
