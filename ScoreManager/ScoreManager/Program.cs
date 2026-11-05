@@ -49,7 +49,7 @@ namespace ScoreManager {
             var wSubject = Console.ReadLine()?.Trim();
 
             if (string.IsNullOrEmpty(wSubject)) {
-                Console.WriteLine($"科目名が入力されていません。");
+                Console.WriteLine("科目名が入力されていません。");
                 return;
             }
 
