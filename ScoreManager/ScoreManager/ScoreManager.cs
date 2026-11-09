@@ -72,6 +72,7 @@ namespace ScoreManager {
                         FScores.Add(new StudentScore(wName, wSubject, wScore));
                     }
                     Console.WriteLine($"{FScores.Count} 件のデータを読み込みました。");
+                    Console.WriteLine("");
                 }
             } catch (IOException ex) {
                 Console.WriteLine($"ファイルの読み込み中にエラーが発生しました: {ex.Message}");
