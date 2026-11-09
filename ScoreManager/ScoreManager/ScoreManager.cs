@@ -162,7 +162,7 @@ namespace ScoreManager {
                 Console.WriteLine($"ファイルへのアクセス権限がありません: {ex.Message}");
                 return;
             }
-        Console.WriteLine($"CSV出力完了: {vFilePath}");
+            Console.WriteLine($"CSV出力完了: {vFilePath}");
         }
     }
 }
