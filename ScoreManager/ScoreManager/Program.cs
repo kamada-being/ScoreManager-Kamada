@@ -62,16 +62,10 @@ namespace ScoreManager {
                 wManager.DisplayScores(wFilteredScores);
             }
 
-            //6. CSV出力
+            // 6.CSV出力
             Console.WriteLine("=== CSV出力 ===");
             var wOutputFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "output_scores.csv");
-            var wIsSuccess = wManager.OutputCSV(wOutputFilePath);
-            
-            if (wIsSuccess) {
-                Console.WriteLine($"CSV出力完了: {wOutputFilePath}");
-            } else {
-                Console.WriteLine("CSV出力に失敗しました。");
-            }
+            wManager.OutputCSV(wOutputFilePath);
         }
     }
 }

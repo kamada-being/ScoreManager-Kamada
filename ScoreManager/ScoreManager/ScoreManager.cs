@@ -142,11 +142,10 @@ namespace ScoreManager {
         /// 保持する全ての成績データをCSV形式で出力する。
         /// </summary>
         /// <param name="vFilePath">出力先のファイルパス</param>
-        /// <returns>出力が成功したかどうかを判定する値</returns>
-        public bool OutputCSV(string vFilePath) {
+        public void OutputCSV(string vFilePath) {
             if (FScores.Count == 0) {
                 Console.WriteLine("出力するデータがありません。");
-                return false;
+                return;
             }
 
             try {
@@ -158,12 +157,10 @@ namespace ScoreManager {
                 }
             } catch (IOException ex) {
                 Console.WriteLine($"ファイルの書き込み中にエラーが発生しました: {ex.Message}");
-                return false;
             } catch (UnauthorizedAccessException ex) {
                 Console.WriteLine($"ファイルへのアクセス権限がありません: {ex.Message}");
-                return false;
             }
-            return true;
+            Console.WriteLine($"CSV出力完了: {vFilePath}");
         }
     }
 }
