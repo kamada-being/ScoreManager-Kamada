@@ -20,7 +20,7 @@ namespace ScoreManager {
 
                     while (Console.ReadKey(true).Key != ConsoleKey.Enter) {
                     }
-                    Console.WriteLine("");
+                    Console.WriteLine();
                 }
                 wIsFirst = false;
 
@@ -32,11 +32,11 @@ namespace ScoreManager {
                 Console.WriteLine("5. 科目でフィルタ");
                 Console.WriteLine("6. CSV出力");
                 Console.WriteLine("0. 終了");
-                Console.WriteLine("");
+                Console.WriteLine();
                 Console.Write("メニュー番号を入力してください: ");
 
                 string wSelectNumber = Console.ReadLine()?.Trim();
-                Console.WriteLine("");
+                Console.WriteLine();
 
                 switch (wSelectNumber) {
                     // 0.アプリ終了
@@ -51,7 +51,7 @@ namespace ScoreManager {
                     case "１":
                         Console.WriteLine("=== 成績一覧 ===");
                         wManager.DisplayScores(wManager.Scores);
-                        Console.WriteLine("");
+                        Console.WriteLine();
                         break;
 
                     // 2.全教科の平均点表示
@@ -59,7 +59,7 @@ namespace ScoreManager {
                     case "２":
                         Console.WriteLine("=== 全教科の平均点 ===");
                         Console.WriteLine($"平均点: {wManager.CalcAverageScore():F2}");
-                        Console.WriteLine("");
+                        Console.WriteLine();
                         break;
 
                     // 3.科目別平均点表示
@@ -76,7 +76,7 @@ namespace ScoreManager {
                                 Console.WriteLine($"{wPair.Key}: {wPair.Value:F2}");
                             }
                         }
-                        Console.WriteLine("");
+                        Console.WriteLine();
                         break;
 
                     // 4.合格者一覧表示
@@ -90,7 +90,7 @@ namespace ScoreManager {
                             Console.WriteLine($"合格者 {wPassingScores.GroupBy(x => x.Name).Count()} 名");
                             wManager.DisplayScores(wPassingScores);
                         }
-                        Console.WriteLine("");
+                        Console.WriteLine();
                         break;
 
                     // 5.科目でフィルタして表示
@@ -102,7 +102,7 @@ namespace ScoreManager {
 
                         if (string.IsNullOrEmpty(wSubject)) {
                             Console.WriteLine("科目名が入力されていません。");
-                            Console.WriteLine("");
+                            Console.WriteLine();
                             continue;
                         }
 
@@ -114,7 +114,7 @@ namespace ScoreManager {
                             Console.WriteLine($"{wSubject} の成績一覧");
                             wManager.DisplayScores(wFilteredScores);
                         }
-                        Console.WriteLine("");
+                        Console.WriteLine();
                         break;
 
                     // 6.CSV出力
@@ -123,12 +123,12 @@ namespace ScoreManager {
                         Console.WriteLine("=== CSV出力 ===");
                         var wOutputFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "output_scores.csv");
                         wManager.OutputCSV(wOutputFilePath);
-                        Console.WriteLine("");
+                        Console.WriteLine();
                         break;
 
                     default:
                         Console.WriteLine("無効な入力です。");
-                        Console.WriteLine("");
+                        Console.WriteLine();
                         break;
                 }
             }
