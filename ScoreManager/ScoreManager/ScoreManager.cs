@@ -157,10 +157,12 @@ namespace ScoreManager {
                 }
             } catch (IOException ex) {
                 Console.WriteLine($"ファイルの書き込み中にエラーが発生しました: {ex.Message}");
+                return;
             } catch (UnauthorizedAccessException ex) {
                 Console.WriteLine($"ファイルへのアクセス権限がありません: {ex.Message}");
+                return;
             }
-            Console.WriteLine($"CSV出力完了: {vFilePath}");
+        Console.WriteLine($"CSV出力完了: {vFilePath}");
         }
     }
 }
