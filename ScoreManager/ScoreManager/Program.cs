@@ -54,13 +54,18 @@ namespace ScoreManager {
             }
 
             var wFilteredScores = wManager.FilterScoresBySubject(wSubject);
-            
+
             if (wFilteredScores.Count == 0) {
                 Console.WriteLine($"「{wSubject}」の成績はありません。");
             } else {
                 Console.WriteLine($"{wSubject} の成績一覧");
                 wManager.DisplayScores(wFilteredScores);
             }
+
+            // 6.CSV出力
+            Console.WriteLine("=== CSV出力 ===");
+            var wOutputFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "output_scores.csv");
+            wManager.OutputCSV(wOutputFilePath);
         }
     }
 }
