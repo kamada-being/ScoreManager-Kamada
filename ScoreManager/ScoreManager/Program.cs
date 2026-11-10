@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace ScoreManager {
     internal class Program {
-        static private ScoreManager FManager = new ScoreManager();
+        private static readonly ScoreManager FManager = new ScoreManager();
         static void Main(string[] args) {
             Console.WriteLine("=== 成績管理アプリ ===");
             Console.WriteLine(".exeと同階層にあるCSVファイルから成績データを読み込みます。");
@@ -13,61 +14,35 @@ namespace ScoreManager {
             var wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
             FManager.ReadData(wFilePath);
 
+            var wMenuItems = new List<MenuItem>{
+                new MenuItem("1", "一覧表示",() => DisplayScores()),
+                new MenuItem("2", "平均点表示", () => DisplayAverage()),
+                new MenuItem("3", "科目別平均点表示", () => DisplaySubjectAverage()),
+                new MenuItem("4", "合格者一覧", () => DisplayPassingScores()),
+                new MenuItem("5", "科目でフィルタ", () => FilterBySubject()),
+                new MenuItem("6", "CSV出力", () => OutputCSV()),
+                new MenuItem("0", "終了", () => ExitApplication())
+            };
+
             while (true) {
                 Console.WriteLine("=== 成績管理メニュー ===");
-                Console.WriteLine($"{(int)MenuEnum.DisplayScores}. 一覧表示");
-                Console.WriteLine($"{(int)MenuEnum.DisplayAverage}. 平均点表示");
-                Console.WriteLine($"{(int)MenuEnum.DisplaySubjectAverage}. 科目別平均点表示");
-                Console.WriteLine($"{(int)MenuEnum.DisplayPassingScores}. 合格者一覧");
-                Console.WriteLine($"{(int)MenuEnum.FilterBySubject}. 科目でフィルタ");
-                Console.WriteLine($"{(int)MenuEnum.OutputCSV}. CSV出力");
-                Console.WriteLine($"{(int)MenuEnum.Exit}. 終了");
+                foreach (var wMenuItem in wMenuItems) {
+                    Console.WriteLine($"{wMenuItem.SelectedNumber}. {wMenuItem.MenuText}");
+                }
                 Console.WriteLine();
                 Console.Write("選択：");
 
-                string wInput = Console.ReadLine()?.Trim().Normalize(NormalizationForm.FormKC);
+                string wSelectedNumber = Console.ReadLine()?.Trim().Normalize(NormalizationForm.FormKC);
 
-                if (int.TryParse(wInput, out int wSelectNumber) && Enum.IsDefined(typeof(MenuEnum), wSelectNumber)) {
-                    var wMenuNumber = (MenuEnum)wSelectNumber;
+                var wSelectedMenuItem = wMenuItems.FirstOrDefault(x => x.SelectedNumber == wSelectedNumber);
 
-                    switch (wMenuNumber) {
-                        case MenuEnum.Exit:
-                            ExitApplication();
-                            return;
 
-                        case MenuEnum.DisplayScores:
-                            DisplayScores();
-                            break;
-
-                        case MenuEnum.DisplayAverage:
-                            DisplayAverage();
-                            break;
-
-                        case MenuEnum.DisplaySubjectAverage:
-                            DisplaySubjectAverage();
-                            break;
-
-                        case MenuEnum.DisplayPassingScores:
-                            DisplayPassingScores();
-                            break;
-
-                        case MenuEnum.FilterBySubject:
-                            FilterBySubject();
-                            break;
-
-                        case MenuEnum.OutputCSV:
-                            OutputCSV();
-                            break;
-                    }
+                if (wSelectedMenuItem != null) {
+                    wSelectedMenuItem.Execute();
                 } else {
                     ErrorMessage();
                 }
-                // メニュー選択の待機画面
-                Console.WriteLine("Enterキーを押すとメニュー画面を表示します");
-
-                while (Console.ReadKey(true).Key != ConsoleKey.Enter) {
-                }
-                Console.WriteLine();
+                WaitForEnterKey();
             }
         }
 
@@ -77,6 +52,7 @@ namespace ScoreManager {
         private static void ExitApplication() {
             Console.WriteLine("アプリを終了します。任意のキーを押してください。");
             Console.ReadKey(true);
+            Environment.Exit(0);
         }
 
         /// <summary>
@@ -165,6 +141,17 @@ namespace ScoreManager {
         /// </summary>
         private static void ErrorMessage() {
             Console.WriteLine("無効な入力です。");
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// メニュー選択の待機画面を表示する
+        /// </summary>
+        private static void WaitForEnterKey() {
+            Console.WriteLine("Enterキーを押すとメニュー画面を表示します");
+
+            while (Console.ReadKey(true).Key != ConsoleKey.Enter) {
+            }
             Console.WriteLine();
         }
     }
