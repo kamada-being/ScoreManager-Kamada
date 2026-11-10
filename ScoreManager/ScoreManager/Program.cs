@@ -5,25 +5,23 @@ using System.Text;
 
 namespace ScoreManager {
     internal class Program {
-        static internal ScoreManager wManager = new ScoreManager();
-
+        static private ScoreManager FManager = new ScoreManager();
         static void Main(string[] args) {
             Console.WriteLine("=== 成績管理アプリ ===");
             Console.WriteLine(".exeと同階層にあるCSVファイルから成績データを読み込みます。");
 
-
             var wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
-            wManager.ReadData(wFilePath);
+            FManager.ReadData(wFilePath);
 
             while (true) {
                 Console.WriteLine("=== 成績管理メニュー ===");
-                Console.WriteLine($"{MenuEnum.Exit}. 一覧表示");
-                Console.WriteLine($"{MenuEnum.DisplayAverage}. 平均点表示");
-                Console.WriteLine($"{MenuEnum.DisplaySubjectAverage}. 科目別平均点表示");
-                Console.WriteLine($"{MenuEnum.DisplayPassingScores}. 合格者一覧");
-                Console.WriteLine($"{MenuEnum.FilterBySubject}. 科目でフィルタ");
-                Console.WriteLine($"{MenuEnum.OutputCSV}. CSV出力");
-                Console.WriteLine($"{MenuEnum.Exit}. 終了");
+                Console.WriteLine($"{(int)MenuEnum.DisplayScores}. 一覧表示");
+                Console.WriteLine($"{(int)MenuEnum.DisplayAverage}. 平均点表示");
+                Console.WriteLine($"{(int)MenuEnum.DisplaySubjectAverage}. 科目別平均点表示");
+                Console.WriteLine($"{(int)MenuEnum.DisplayPassingScores}. 合格者一覧");
+                Console.WriteLine($"{(int)MenuEnum.FilterBySubject}. 科目でフィルタ");
+                Console.WriteLine($"{(int)MenuEnum.OutputCSV}. CSV出力");
+                Console.WriteLine($"{(int)MenuEnum.Exit}. 終了");
                 Console.WriteLine();
                 Console.Write("選択：");
 
@@ -60,18 +58,16 @@ namespace ScoreManager {
                         case MenuEnum.OutputCSV:
                             OutputCSV();
                             break;
-
-                        default:
-                            ErrorMessage();
-                            break;
                     }
-                    // メニュー選択の待機画面
-                    Console.WriteLine("Enterキーを押すとメニュー画面を表示します");
-
-                    while (Console.ReadKey(true).Key != ConsoleKey.Enter) {
-                    }
-                    Console.WriteLine();
+                } else {
+                    ErrorMessage();
                 }
+                // メニュー選択の待機画面
+                Console.WriteLine("Enterキーを押すとメニュー画面を表示します");
+
+                while (Console.ReadKey(true).Key != ConsoleKey.Enter) {
+                }
+                Console.WriteLine();
             }
         }
 
@@ -88,16 +84,15 @@ namespace ScoreManager {
         /// </summary>
         private static void DisplayScores() {
             Console.WriteLine("=== 成績一覧 ===");
-            wManager.DisplayScores(wManager.Scores);
+            FManager.DisplayScores(FManager.Scores);
             Console.WriteLine();
         }
 
         /// <summary>
         /// 全教科の平均点を表示する
         /// </summary>
-        /// <param name="wManager"></param>
         private static void DisplayAverage() {
-            Console.WriteLine($"平均点: {wManager.CalcAverageScore():F2}");
+            Console.WriteLine($"平均点: {FManager.CalcAverageScore():F2}");
             Console.WriteLine();
         }
 
@@ -106,7 +101,7 @@ namespace ScoreManager {
         /// </summary>
         private static void DisplaySubjectAverage() {
             Console.WriteLine("科目別平均点:");
-            var wSubjectAverages = wManager.CalcSubjectAverages(wManager.Scores);
+            var wSubjectAverages = FManager.CalcSubjectAverages(FManager.Scores);
 
             if (wSubjectAverages.Count == 0) {
                 Console.WriteLine("データがありません。");
@@ -122,12 +117,12 @@ namespace ScoreManager {
         /// 合格者の成績一覧を表示する
         /// </summary>
         private static void DisplayPassingScores() {
-            var wPassingScores = wManager.GetPassingScores(wManager.Scores);
+            var wPassingScores = FManager.GetPassingScores(FManager.Scores);
             if (wPassingScores.Count == 0) {
                 Console.WriteLine("合格者はいません。");
             } else {
                 Console.WriteLine($"合格者 {wPassingScores.GroupBy(x => x.Name).Count()} 名");
-                wManager.DisplayScores(wPassingScores);
+                FManager.DisplayScores(wPassingScores);
             }
             Console.WriteLine();
         }
@@ -145,13 +140,13 @@ namespace ScoreManager {
                 return;
             }
 
-            var wFilteredScores = wManager.FilterScoresBySubject(wSubject);
+            var wFilteredScores = FManager.FilterScoresBySubject(wSubject);
 
             if (wFilteredScores.Count == 0) {
                 Console.WriteLine($"「{wSubject}」の成績はありません。");
             } else {
                 Console.WriteLine($"{wSubject} の成績一覧");
-                wManager.DisplayScores(wFilteredScores);
+                FManager.DisplayScores(wFilteredScores);
             }
             Console.WriteLine();
         }
@@ -161,7 +156,7 @@ namespace ScoreManager {
         /// </summary>
         private static void OutputCSV() {
             var wOutputFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "output_scores.csv");
-            wManager.OutputCSV(wOutputFilePath);
+            FManager.OutputCSV(wOutputFilePath);
             Console.WriteLine();
         }
 

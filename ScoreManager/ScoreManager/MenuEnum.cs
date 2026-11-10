@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ScoreManager {
+﻿namespace ScoreManager {
     /// <summary>
     /// メニューの選択肢を表す列挙型。
     /// </summary>
