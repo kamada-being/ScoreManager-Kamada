@@ -7,6 +7,8 @@ using System.Text;
 namespace ScoreManager {
     internal class Program {
         private static readonly ScoreManager FManager = new ScoreManager();
+
+        private const string C_ExitNumber = "0";
         static void Main(string[] args) {
             Console.WriteLine("=== 成績管理アプリ ===");
             Console.WriteLine(".exeと同階層にあるCSVファイルから成績データを読み込みます。");
@@ -14,7 +16,6 @@ namespace ScoreManager {
             var wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
             FManager.ReadData(wFilePath);
 
-            const string C_ExitNumber = "0";
             var wMenuItems = new List<MenuItem> {
                 new MenuItem("1", "一覧表示", DisplayScores),
                 new MenuItem("2", "平均点表示", DisplayAverage),
