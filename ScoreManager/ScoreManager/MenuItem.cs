@@ -6,7 +6,7 @@ namespace ScoreManager {
     /// </summary>
     internal class MenuItem {
         /// <summary>
-        /// ユーザーが選択した番号を取得する。
+        /// メニュー番号を取得する。
         /// </summary>
         public string MenuNumber { get; }
 

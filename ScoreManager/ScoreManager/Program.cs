@@ -14,6 +14,7 @@ namespace ScoreManager {
             var wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
             FManager.ReadData(wFilePath);
 
+            const string C_ExitNumber = "0";
             var wMenuItems = new List<MenuItem> {
                 new MenuItem("1", "一覧表示", DisplayScores),
                 new MenuItem("2", "平均点表示", DisplayAverage),
@@ -28,13 +29,13 @@ namespace ScoreManager {
                 foreach (var wMenuItem in wMenuItems) {
                     Console.WriteLine($"{wMenuItem.MenuNumber}. {wMenuItem.MenuText}");
                 }
-                Console.WriteLine("0. 終了");
+                Console.WriteLine($"{C_ExitNumber}. 終了");
                 Console.WriteLine();
                 Console.Write("選択：");
 
                 string wSelectedNumber = Console.ReadLine()?.Trim().Normalize(NormalizationForm.FormKC);
 
-                if (wSelectedNumber == "0") {
+                if (wSelectedNumber == C_ExitNumber) {
                     ExitApplication();
                     return;
                 }
