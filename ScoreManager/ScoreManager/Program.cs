@@ -14,28 +14,32 @@ namespace ScoreManager {
             var wFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scores.csv");
             FManager.ReadData(wFilePath);
 
-            var wMenuItems = new List<MenuItem>{
-                new MenuItem("1", "一覧表示",() => DisplayScores()),
-                new MenuItem("2", "平均点表示", () => DisplayAverage()),
-                new MenuItem("3", "科目別平均点表示", () => DisplaySubjectAverage()),
-                new MenuItem("4", "合格者一覧", () => DisplayPassingScores()),
-                new MenuItem("5", "科目でフィルタ", () => FilterBySubject()),
-                new MenuItem("6", "CSV出力", () => OutputCSV()),
-                new MenuItem("0", "終了", () => ExitApplication())
+            var wMenuItems = new List<MenuItem> {
+                new MenuItem("1", "一覧表示", DisplayScores),
+                new MenuItem("2", "平均点表示", DisplayAverage),
+                new MenuItem("3", "科目別平均点表示", DisplaySubjectAverage),
+                new MenuItem("4", "合格者一覧", DisplayPassingScores),
+                new MenuItem("5", "科目でフィルタ", FilterBySubject),
+                new MenuItem("6", "CSV出力", OutputCSV),
             };
 
             while (true) {
                 Console.WriteLine("=== 成績管理メニュー ===");
                 foreach (var wMenuItem in wMenuItems) {
-                    Console.WriteLine($"{wMenuItem.SelectedNumber}. {wMenuItem.MenuText}");
+                    Console.WriteLine($"{wMenuItem.MenuNumber}. {wMenuItem.MenuText}");
                 }
+                Console.WriteLine("0. 終了");
                 Console.WriteLine();
                 Console.Write("選択：");
 
                 string wSelectedNumber = Console.ReadLine()?.Trim().Normalize(NormalizationForm.FormKC);
 
-                var wSelectedMenuItem = wMenuItems.FirstOrDefault(x => x.SelectedNumber == wSelectedNumber);
+                if (wSelectedNumber == "0") {
+                    ExitApplication();
+                    return;
+                }
 
+                var wSelectedMenuItem = wMenuItems.FirstOrDefault(x => x.MenuNumber == wSelectedNumber);
 
                 if (wSelectedMenuItem != null) {
                     wSelectedMenuItem.Execute();
@@ -52,7 +56,6 @@ namespace ScoreManager {
         private static void ExitApplication() {
             Console.WriteLine("アプリを終了します。任意のキーを押してください。");
             Console.ReadKey(true);
-            Environment.Exit(0);
         }
 
         /// <summary>
